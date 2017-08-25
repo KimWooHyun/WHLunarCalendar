@@ -13,9 +13,9 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
     var collectionview: UICollectionView!
     var cellId = "Cell"
     var fitstDay = Date().startOfMonth()
+    let weeks = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"]
     let thisYear = Calendar.current.component(.year, from: Date().startOfMonth())
     let thisMonth = Calendar.current.component(.month, from: Date().startOfMonth())
-    
     let thisWeekday = Calendar.current.component(.weekday, from: Date().startOfMonth())
     
     override open func viewWillAppear(_ animated: Bool) {
@@ -33,13 +33,23 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
         label.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(label)
         
+        for (index, week) in weeks.enumerated() {
+            let label = UILabel(frame: CGRect(x: (view.frame.width/7) * CGFloat(index), y: 46, width: view.frame.width/7, height: 14))
+            label.text = week
+            label.textAlignment = .center
+            label.font = UIFont.systemFont(ofSize: 14)
+            label.textColor = UIColor.darkGray
+            label.translatesAutoresizingMaskIntoConstraints = false
+            self.view.addSubview(label)
+        }
+        
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        layout.itemSize = CGSize(width: view.frame.width/7, height: (view.frame.height - 53)/6)
+        layout.itemSize = CGSize(width: view.frame.width/7, height: (view.frame.height - 70)/6)
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 0
         
-        collectionview = UICollectionView(frame: CGRect(x: 0, y: 53, width: view.frame.width, height: view.frame.height - 20), collectionViewLayout: layout)
+        collectionview = UICollectionView(frame: CGRect(x: 0, y: 70, width: view.frame.width, height: view.frame.height - 70), collectionViewLayout: layout)
         collectionview.dataSource = self
         collectionview.delegate = self
         collectionview.register(WHLunarCalendarCell.self, forCellWithReuseIdentifier: cellId)
@@ -87,7 +97,7 @@ class WHLunarCalendarCell: UICollectionViewCell {
     }
     
     func addViews(){
-        DayLabel = UILabel(frame: CGRect(x: 0, y: 0, width: frame.width, height: 20))
+        DayLabel = UILabel(frame: CGRect(x: -6, y: 3, width: frame.width, height: 20))
         DayLabel.textAlignment = .right
         DayLabel.font = UIFont.systemFont(ofSize: 14)
         DayLabel.textColor = UIColor.darkGray
