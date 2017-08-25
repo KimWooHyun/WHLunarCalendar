@@ -15,27 +15,31 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
     var fitstDay = Date().startOfMonth()
     let thisYear = Calendar.current.component(.year, from: Date().startOfMonth())
     let thisMonth = Calendar.current.component(.month, from: Date().startOfMonth())
+    
     let thisWeekday = Calendar.current.component(.weekday, from: Date().startOfMonth())
     
     override open func viewWillAppear(_ animated: Bool) {
         super.viewDidLoad()
         fitstDay = fitstDay.add(day: -(thisWeekday - 1))
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM"
+        let month = formatter.string(from: fitstDay.add(month: 1) as Date )
         
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 20))
-        label.text = String(self.thisYear) + "년 " + String(self.thisMonth) + "월"
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 36))
+        label.text = String(self.thisYear) + "." + month
         label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = UIFont.systemFont(ofSize: 36)
         label.textColor = UIColor.darkGray
         label.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(label)
         
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        layout.itemSize = CGSize(width: view.frame.width/7, height: (view.frame.height - 20)/6)
+        layout.itemSize = CGSize(width: view.frame.width/7, height: (view.frame.height - 53)/6)
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 0
         
-        collectionview = UICollectionView(frame: CGRect(x: 0, y: 20, width: view.frame.width, height: view.frame.height - 20), collectionViewLayout: layout)
+        collectionview = UICollectionView(frame: CGRect(x: 0, y: 53, width: view.frame.width, height: view.frame.height - 20), collectionViewLayout: layout)
         collectionview.dataSource = self
         collectionview.delegate = self
         collectionview.register(WHLunarCalendarCell.self, forCellWithReuseIdentifier: cellId)
