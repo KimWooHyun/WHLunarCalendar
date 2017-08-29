@@ -12,7 +12,7 @@ import UIKit
 open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     var collectionview: UICollectionView!
     var cellId = "Cell"
-    var fitstDay = Date().startOfMonth()
+    var firstDay = Date().startOfMonth()
     let weeks = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"]
     let thisYear = Calendar.current.component(.year, from: Date().startOfMonth())
     var thisMonth = Calendar.current.component(.month, from: Date().startOfMonth())
@@ -23,10 +23,11 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
     
     override open func viewWillAppear(_ animated: Bool) {
         super.viewDidLoad()
-        fitstDay = fitstDay.add(day: -(thisWeekday - 1))
+        firstDay = firstDay.add(day: -(thisWeekday - 1))
+        
         let formatter = DateFormatter()
         formatter.dateFormat = "MM"
-        let month = formatter.string(from: fitstDay.add(month: 1) as Date )
+        let month = formatter.string(from: firstDay.add(month: 1) as Date )
         
         monthTF.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 36)
         monthTF.addTarget(self, action: #selector(dateTextInputPressed), for: .touchDown)
@@ -82,7 +83,7 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
     public func collectionView(_ cellForItemAtcollectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionview.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath as IndexPath) as! WHLunarCalendarCell
         
-        let date = fitstDay.add(day: indexPath.row)
+        let date = firstDay.add(day: indexPath.row)
         let calendar = Calendar.current
         let year = calendar.component(.year, from: date)
         let month = calendar.component(.month, from: date)
@@ -97,20 +98,37 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
             cell.alpha = 1.0
         }
         cell.DayLabel.text = String(day)
+        changeLunar(isSelected: isLunarButton.isSelected, cell: cell, date: date)
+        
         return cell
+    }
+    
+    func changeLunar (isSelected: Bool, cell: WHLunarCalendarCell, date: Date) {
+        if (isSelected) {
+            let chineseCalendar = NSCalendar(calendarIdentifier: NSCalendar.Identifier.chinese)!
+            var lunarMonth = chineseCalendar.components(.month, from: date as Date).month!
+            var lunarDay = chineseCalendar.components(.day, from: date as Date).day!
+            var leap = chineseCalendar.components(.month, from: date as Date).isLeapMonth!
+            if(leap) {
+                cell.LunarLabel.text = "윤 " + String(describing: lunarMonth) + "." + String(describing: lunarDay)
+            }
+            else {
+                cell.LunarLabel.text = "음 " + String(describing: lunarMonth) + "." + String(describing: lunarDay)
+            }
+        }
+        else {
+            cell.LunarLabel.text = ""
+        }
     }
     
     func isLunarButtonClick(sender: UIButton!) {
         sender.isSelected = !sender.isSelected
-        
-        let cells = self.collectionview.visibleCells as! Array<WHLunarCalendarCell>
-        
         UIView.animate(withDuration: 0.3) {
             () -> Void in
             self.isLunarButton.backgroundColor = sender.isSelected ? UIColor.navy : UIColor.clear
-            for cell in cells { cell.LunarLabel.text = sender.isSelected ? "음" : "" }
             self.view.layoutIfNeeded()
         }
+        self.collectionview.reloadData()
     }
     
     func dateTextInputPressed(sender: UITextField) {
@@ -135,7 +153,7 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
         self.monthTF.text = dateFormatter.string(from: sender.date)
         self.thisMonth = Calendar.current.component(.month, from: changeDate)
         self.thisWeekday = Calendar.current.component(.weekday, from: changeDate)
-        self.fitstDay = changeDate.add(day: -(thisWeekday - 1))
+        self.firstDay = changeDate.add(day: -(thisWeekday - 1))
         self.collectionview.reloadData()
     }
     
@@ -160,15 +178,15 @@ class WHLunarCalendarCell: UICollectionViewCell {
     }
     
     func addViews(){
-        DayLabel = UILabel(frame: CGRect(x: -6, y: 3, width: frame.width, height: 20))
+        DayLabel = UILabel(frame: CGRect(x: -6, y: 28, width: frame.width, height: 20))
         DayLabel.textAlignment = .right
-        DayLabel.font = UIFont.systemFont(ofSize: 14)
+        DayLabel.font = UIFont.systemFont(ofSize: 20)
         DayLabel.textColor = UIColor.darkGray
         DayLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        LunarLabel = UILabel(frame: CGRect(x: 5, y: 3, width: frame.width, height: 20))
+        LunarLabel = UILabel(frame: CGRect(x: 5, y: 2, width: frame.width, height: 20))
         LunarLabel.textAlignment = .left
-        LunarLabel.font = UIFont.systemFont(ofSize: 12)
+        LunarLabel.font = UIFont.systemFont(ofSize: 10)
         LunarLabel.textColor = UIColor.darkGray
         LunarLabel.translatesAutoresizingMaskIntoConstraints = false
         
@@ -180,6 +198,7 @@ class WHLunarCalendarCell: UICollectionViewCell {
         didSet {
             backgroundColor = isSelected ? UIColor.navy : UIColor.brightGray
             self.DayLabel.textColor = isSelected ? UIColor.white : UIColor.darkGray
+            self.LunarLabel.textColor = isSelected ? UIColor.white : UIColor.darkGray
         }
     }
 

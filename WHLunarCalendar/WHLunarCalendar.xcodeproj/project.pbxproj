@@ -13,7 +13,6 @@
 		784C44661F4D2AD40096A65A /* WHLunarCalendar.h in Headers */ = {isa = PBXBuildFile; fileRef = 784C44581F4D2AD40096A65A /* WHLunarCalendar.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		784C44BE1F4D422B0096A65A /* WHLunarCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784C44BD1F4D422B0096A65A /* WHLunarCalendar.swift */; };
 		7891CCD51F4E90F2003B1766 /* LunarCalendarControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7891CCD41F4E90F2003B1766 /* LunarCalendarControllerView.swift */; };
-		78BD6F081F5410D9007E2FD2 /* Lunar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BD6F071F5410D9007E2FD2 /* Lunar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,7 +57,6 @@
 		784C44A91F4D2B370096A65A /* WHLunarCalendarDemo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = WHLunarCalendarDemo.xcodeproj; path = WHLunarCalendar/WHLunarCalendarDemo/WHLunarCalendarDemo.xcodeproj; sourceTree = "<group>"; };
 		784C44BD1F4D422B0096A65A /* WHLunarCalendar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WHLunarCalendar.swift; sourceTree = "<group>"; };
 		7891CCD41F4E90F2003B1766 /* LunarCalendarControllerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LunarCalendarControllerView.swift; sourceTree = "<group>"; };
-		78BD6F071F5410D9007E2FD2 /* Lunar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lunar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,7 +102,6 @@
 			children = (
 				784C44581F4D2AD40096A65A /* WHLunarCalendar.h */,
 				782509431F4EAB1300A0D707 /* Extension.swift */,
-				78BD6F071F5410D9007E2FD2 /* Lunar.swift */,
 				784C44BD1F4D422B0096A65A /* WHLunarCalendar.swift */,
 				7891CCD41F4E90F2003B1766 /* LunarCalendarControllerView.swift */,
 				784C44591F4D2AD40096A65A /* Info.plist */,
@@ -288,7 +285,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				78BD6F081F5410D9007E2FD2 /* Lunar.swift in Sources */,
 				782509441F4EAB1300A0D707 /* Extension.swift in Sources */,
 				7891CCD51F4E90F2003B1766 /* LunarCalendarControllerView.swift in Sources */,
 				784C44BE1F4D422B0096A65A /* WHLunarCalendar.swift in Sources */,
