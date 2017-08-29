@@ -17,6 +17,7 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
     let thisYear = Calendar.current.component(.year, from: Date().startOfMonth())
     let thisMonth = Calendar.current.component(.month, from: Date().startOfMonth())
     let thisWeekday = Calendar.current.component(.weekday, from: Date().startOfMonth())
+    let isLunarButton = UIButton(type: .custom)
     
     override open func viewWillAppear(_ animated: Bool) {
         super.viewDidLoad()
@@ -32,6 +33,18 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
         label.textColor = UIColor.darkGray
         label.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(label)
+        
+        isLunarButton.frame = CGRect(x: 270, y: 8, width: 35, height: 25)
+        isLunarButton.layer.borderWidth = 1.0
+        isLunarButton.layer.borderColor = UIColor.darkGray.cgColor
+        isLunarButton.layer.cornerRadius = 8.0
+        isLunarButton.setTitle("음력", for: .normal)
+        isLunarButton.setTitleColor(UIColor.darkGray, for: .normal)
+        isLunarButton.setTitleColor(UIColor.white, for: .selected)
+        isLunarButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        isLunarButton.tag = 1
+        isLunarButton.addTarget(self, action: #selector(isLunarButtonClick), for: .touchUpInside)
+        self.view.addSubview(isLunarButton)
         
         for (index, week) in weeks.enumerated() {
             let label = UILabel(frame: CGRect(x: (view.frame.width/7) * CGFloat(index), y: 46, width: view.frame.width/7, height: 14))
@@ -83,10 +96,26 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
         cell.DayLabel.text = String(day)
         return cell
     }
+    
+    func isLunarButtonClick(sender: UIButton!) {
+        sender.isSelected = !sender.isSelected
+        
+        let cells = self.collectionview.visibleCells as! Array<WHLunarCalendarCell>
+        
+        UIView.animate(withDuration: 0.3) {
+            () -> Void in
+            self.isLunarButton.backgroundColor = sender.isSelected ? UIColor.navy : UIColor.clear
+            for cell in cells { cell.LunarLabel.text = sender.isSelected ? "음" : "" }
+            self.view.layoutIfNeeded()
+        }
+        
+    }
 }
 
 class WHLunarCalendarCell: UICollectionViewCell {
     var DayLabel: UILabel!
+    var LunarLabel: UILabel!
+    var lunarDay: String? = nil
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -102,7 +131,15 @@ class WHLunarCalendarCell: UICollectionViewCell {
         DayLabel.font = UIFont.systemFont(ofSize: 14)
         DayLabel.textColor = UIColor.darkGray
         DayLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        LunarLabel = UILabel(frame: CGRect(x: 5, y: 3, width: frame.width, height: 20))
+        LunarLabel.textAlignment = .left
+        LunarLabel.font = UIFont.systemFont(ofSize: 12)
+        LunarLabel.textColor = UIColor.darkGray
+        LunarLabel.translatesAutoresizingMaskIntoConstraints = false
+        
         addSubview(DayLabel)
+        addSubview(LunarLabel)
     }
     
     override var isSelected: Bool {
