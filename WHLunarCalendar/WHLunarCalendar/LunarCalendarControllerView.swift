@@ -15,9 +15,11 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
     var fitstDay = Date().startOfMonth()
     let weeks = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"]
     let thisYear = Calendar.current.component(.year, from: Date().startOfMonth())
-    let thisMonth = Calendar.current.component(.month, from: Date().startOfMonth())
-    let thisWeekday = Calendar.current.component(.weekday, from: Date().startOfMonth())
+    var thisMonth = Calendar.current.component(.month, from: Date().startOfMonth())
+    var thisWeekday = Calendar.current.component(.weekday, from: Date().startOfMonth())
     let isLunarButton = UIButton(type: .custom)
+    let monthTF = UITextField()
+    var datePickerView = UIDatePicker()
     
     override open func viewWillAppear(_ animated: Bool) {
         super.viewDidLoad()
@@ -26,13 +28,14 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
         formatter.dateFormat = "MM"
         let month = formatter.string(from: fitstDay.add(month: 1) as Date )
         
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 36))
-        label.text = String(self.thisYear) + "." + month
-        label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 36)
-        label.textColor = UIColor.darkGray
-        label.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(label)
+        monthTF.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 36)
+        monthTF.addTarget(self, action: #selector(dateTextInputPressed), for: .touchDown)
+        monthTF.text = String(self.thisYear) + "." + month
+        monthTF.textAlignment = .center
+        monthTF.font = UIFont.systemFont(ofSize: 36)
+        monthTF.textColor = UIColor.darkGray
+        monthTF.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(monthTF)
         
         isLunarButton.frame = CGRect(x: 270, y: 8, width: 35, height: 25)
         isLunarButton.layer.borderWidth = 1.0
@@ -108,8 +111,39 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
             for cell in cells { cell.LunarLabel.text = sender.isSelected ? "음" : "" }
             self.view.layoutIfNeeded()
         }
-        
     }
+    
+    func dateTextInputPressed(sender: UITextField) {
+        let inputView = UIView(frame: CGRect(x:0, y:0, width: self.view.frame.width, height:240))
+        datePickerView.frame = CGRect(x:0, y:40, width: self.view.frame.width, height:200)
+        datePickerView.datePickerMode = UIDatePickerMode.date
+
+        let doneButton = UIButton(frame: CGRect(x:(self.view.frame.size.width) - 100, y:0, width:100, height: 50))
+        doneButton.setTitle("Done", for: UIControlState.normal)
+        doneButton.setTitleColor(UIColor.darkGray, for: UIControlState.normal)
+        doneButton.addTarget(self, action: #selector(doneButtonClick), for: .touchUpInside)
+        
+        inputView.addSubview(datePickerView)
+        inputView.addSubview(doneButton)
+        sender.inputView = inputView
+    }
+    
+    func handleDatePicker(sender: UIDatePicker) {
+        let changeDate = sender.date.startOfMonth()
+        var dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "YYYY.MM"
+        self.monthTF.text = dateFormatter.string(from: sender.date)
+        self.thisMonth = Calendar.current.component(.month, from: changeDate)
+        self.thisWeekday = Calendar.current.component(.weekday, from: changeDate)
+        self.fitstDay = changeDate.add(day: -(thisWeekday - 1))
+        self.collectionview.reloadData()
+    }
+    
+    func doneButtonClick(sender:UIButton) {
+        handleDatePicker(sender: datePickerView)
+        monthTF.resignFirstResponder()
+    }
+    
 }
 
 class WHLunarCalendarCell: UICollectionViewCell {
