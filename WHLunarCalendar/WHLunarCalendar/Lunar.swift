@@ -85,13 +85,14 @@ class Lunar {
             }
         } while (true)
         lunarDate["day"] = nDays + 1
+        lunarDate["month"] = lunarDate["month"] as! Int + 1
         
         return lunarDate
     }
     
     func totalDays(solar_date: Date) -> Int {
         let thisYear = Calendar.current.component(.year, from: solar_date as Date)
-        var thisMonth = Calendar.current.component(.month, from: solar_date as Date)
+        var thisMonth = Calendar.current.component(.month, from: solar_date as Date) - 1
         var thisDay = Calendar.current.component(.day, from: solar_date as Date)
         
         if ((thisYear % 4 == 0) && (thisYear % 100 != 0) || (thisYear % 400 == 0)) { monthTable[1] = 29 }
@@ -138,7 +139,7 @@ class Lunar {
             yun = yun + 1
         } while (yun <= 12)
         
-        return (yun)
+        return yun
     }
 }
 
