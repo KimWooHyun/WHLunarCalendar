@@ -18,6 +18,8 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
     var thisMonth = Calendar.current.component(.month, from: Date().startOfMonth())
     var thisWeekday = Calendar.current.component(.weekday, from: Date().startOfMonth())
     let isLunarButton = UIButton(type: .custom)
+    let prevButton = UIButton(type: .custom)
+    let nextButton = UIButton(type: .custom)
     let monthTF = UITextField()
     var datePickerView = UIDatePicker()
     
@@ -45,9 +47,30 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
         isLunarButton.setTitleColor(UIColor.darkGray, for: .normal)
         isLunarButton.setTitleColor(UIColor.white, for: .selected)
         isLunarButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-        isLunarButton.tag = 1
         isLunarButton.addTarget(self, action: #selector(isLunarButtonClick), for: .touchUpInside)
         self.view.addSubview(isLunarButton)
+        
+        prevButton.frame = CGRect(x: 5, y: 0, width: 35, height: 35)
+        prevButton.layer.backgroundColor = UIColor.brightGray.cgColor
+        prevButton.layer.cornerRadius = 18.0
+        prevButton.setTitle("<", for: .normal)
+        prevButton.setTitleColor(UIColor.darkGray, for: .normal)
+        prevButton.contentVerticalAlignment = .top
+        prevButton.titleLabel?.font = UIFont.systemFont(ofSize: 26)
+        prevButton.tag = 1
+        prevButton.addTarget(self, action: #selector(changeDay), for: .touchUpInside)
+        self.view.addSubview(prevButton)
+        
+        nextButton.frame = CGRect(x: view.frame.width - 40, y: 0, width: 35, height: 35)
+        nextButton.layer.backgroundColor = UIColor.brightGray.cgColor
+        nextButton.layer.cornerRadius = 18.0
+        nextButton.setTitle(" >", for: .normal)
+        nextButton.setTitleColor(UIColor.darkGray, for: .normal)
+        nextButton.contentVerticalAlignment = .top
+        nextButton.titleLabel?.font = UIFont.systemFont(ofSize: 26)
+        nextButton.tag = 2
+        nextButton.addTarget(self, action: #selector(changeDay), for: .touchUpInside)
+        self.view.addSubview(nextButton)
         
         for (index, week) in weeks.enumerated() {
             let label = UILabel(frame: CGRect(x: (view.frame.width/7) * CGFloat(index), y: 46, width: view.frame.width/7, height: 14))
@@ -158,6 +181,22 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
         monthTF.resignFirstResponder()
     }
     
+    func changeDay(sender: UIButton) {
+        var changeDate: Date? = nil
+        if (sender.tag == 1) {
+            changeDate = self.thisWeekday == 1 ? self.firstDay.add(month: -1).startOfMonth() : self.firstDay.startOfMonth()
+        }
+        else if (sender.tag == 2){
+            changeDate = self.firstDay.add(month: 2).startOfMonth()
+        }
+        var dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "YYYY.MM"
+        self.monthTF.text = dateFormatter.string(from: changeDate!)
+        self.thisMonth = Calendar.current.component(.month, from: changeDate!)
+        self.thisWeekday = Calendar.current.component(.weekday, from: changeDate!)
+        self.firstDay = (changeDate?.add(day: -(thisWeekday - 1)))!
+        self.collectionview.reloadData()
+    }
 }
 
 class WHLunarCalendarCell: UICollectionViewCell {
