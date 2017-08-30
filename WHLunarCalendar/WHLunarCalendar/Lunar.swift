@@ -139,7 +139,7 @@ class Lunar {
             yun = yun + 1
         } while (yun <= 12)
         
-        return yun
+        return (yun-1)
     }
 }
 
