@@ -22,7 +22,6 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
     var datePickerView = UIDatePicker()
     
     override open func viewWillAppear(_ animated: Bool) {
-        super.viewDidLoad()
         firstDay = firstDay.add(day: -(thisWeekday - 1))
         
         let formatter = DateFormatter()
@@ -91,7 +90,7 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
         
         if (thisMonth != month) {
             cell.isUserInteractionEnabled = false
-            cell.alpha = 0.5
+            cell.alpha = 0.2
         }
         else {
             cell.isUserInteractionEnabled = true
@@ -105,15 +104,12 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
     
     func changeLunar (isSelected: Bool, cell: WHLunarCalendarCell, date: Date) {
         if (isSelected) {
-            let chineseCalendar = NSCalendar(calendarIdentifier: NSCalendar.Identifier.chinese)!
-            var lunarMonth = chineseCalendar.components(.month, from: date as Date).month!
-            var lunarDay = chineseCalendar.components(.day, from: date as Date).day!
-            var leap = chineseCalendar.components(.month, from: date as Date).isLeapMonth!
-            if(leap) {
-                cell.LunarLabel.text = "윤 " + String(describing: lunarMonth) + "." + String(describing: lunarDay)
+            let lunar = Lunar().solar2lunar(solar_date: date)
+            if(lunar["isYunMonth"] as! Bool) {
+                cell.LunarLabel.text = "윤 " + String(describing: lunar["month"] as! Int) + "." + String(describing: lunar["day"] as! Int)
             }
             else {
-                cell.LunarLabel.text = "음 " + String(describing: lunarMonth) + "." + String(describing: lunarDay)
+                cell.LunarLabel.text = "음 " + String(describing: lunar["month"] as! Int) + "." + String(describing: lunar["day"] as! Int)
             }
         }
         else {
