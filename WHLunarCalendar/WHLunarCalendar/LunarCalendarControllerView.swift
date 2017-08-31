@@ -30,7 +30,24 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
         formatter.dateFormat = "MM"
         let month = formatter.string(from: firstDay.add(month: 1) as Date )
         
-        monthTF.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 36)
+        prevButton.layer.backgroundColor = UIColor.brightGray.cgColor
+        prevButton.layer.cornerRadius = 18.0
+        prevButton.setTitle("<", for: .normal)
+        prevButton.setTitleColor(UIColor.darkGray, for: .normal)
+        prevButton.contentVerticalAlignment = .center
+        prevButton.titleLabel?.font = UIFont.systemFont(ofSize: 26)
+        prevButton.tag = 1
+        prevButton.addTarget(self, action: #selector(changeDay), for: .touchUpInside)
+        prevButton.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(prevButton)
+        
+        let pLeading = NSLayoutConstraint(item: prevButton, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .leading, multiplier: 1, constant: 5)
+        let pTop = NSLayoutConstraint(item: prevButton, attribute: .top, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1, constant: 0)
+        let pWidth = NSLayoutConstraint(item: prevButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 35)
+        let pHeight = NSLayoutConstraint(item: prevButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 35)
+        self.view.addConstraints([pLeading, pTop, pWidth, pHeight])
+        
+        
         monthTF.addTarget(self, action: #selector(dateTextInputPressed), for: .touchDown)
         monthTF.text = String(self.thisYear) + "." + month
         monthTF.textAlignment = .center
@@ -39,7 +56,13 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
         monthTF.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(monthTF)
         
-        isLunarButton.frame = CGRect(x: 270, y: 8, width: 35, height: 25)
+        let mLeading = NSLayoutConstraint(item: monthTF, attribute: .centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1, constant: 0)
+        let mTop = NSLayoutConstraint(item: monthTF, attribute: .top, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1, constant: 0)
+        let mWidth = NSLayoutConstraint(item: monthTF, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 200)
+        let mHeight = NSLayoutConstraint(item: monthTF, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 36)
+        self.view.addConstraints([mLeading, mTop, mWidth, mHeight])
+        
+        
         isLunarButton.layer.borderWidth = 1.0
         isLunarButton.layer.borderColor = UIColor.darkGray.cgColor
         isLunarButton.layer.cornerRadius = 8.0
@@ -48,38 +71,56 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
         isLunarButton.setTitleColor(UIColor.white, for: .selected)
         isLunarButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         isLunarButton.addTarget(self, action: #selector(isLunarButtonClick), for: .touchUpInside)
+        isLunarButton.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(isLunarButton)
         
-        prevButton.frame = CGRect(x: 5, y: 0, width: 35, height: 35)
-        prevButton.layer.backgroundColor = UIColor.brightGray.cgColor
-        prevButton.layer.cornerRadius = 18.0
-        prevButton.setTitle("<", for: .normal)
-        prevButton.setTitleColor(UIColor.darkGray, for: .normal)
-        prevButton.contentVerticalAlignment = .top
-        prevButton.titleLabel?.font = UIFont.systemFont(ofSize: 26)
-        prevButton.tag = 1
-        prevButton.addTarget(self, action: #selector(changeDay), for: .touchUpInside)
-        self.view.addSubview(prevButton)
+        let lLeading = NSLayoutConstraint(item: isLunarButton, attribute: .right, relatedBy: .equal, toItem: self.monthTF, attribute: .right, multiplier: 1, constant: 3)
+        let lTop = NSLayoutConstraint(item: isLunarButton, attribute: .top, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1, constant: 7)
+        let lWidth = NSLayoutConstraint(item: isLunarButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 35)
+        let lHeight = NSLayoutConstraint(item: isLunarButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 25)
+        self.view.addConstraints([lLeading, lTop, lWidth, lHeight])
         
-        nextButton.frame = CGRect(x: view.frame.width - 40, y: 0, width: 35, height: 35)
         nextButton.layer.backgroundColor = UIColor.brightGray.cgColor
         nextButton.layer.cornerRadius = 18.0
         nextButton.setTitle(" >", for: .normal)
         nextButton.setTitleColor(UIColor.darkGray, for: .normal)
-        nextButton.contentVerticalAlignment = .top
+        nextButton.contentVerticalAlignment = .center
         nextButton.titleLabel?.font = UIFont.systemFont(ofSize: 26)
         nextButton.tag = 2
         nextButton.addTarget(self, action: #selector(changeDay), for: .touchUpInside)
+        nextButton.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(nextButton)
         
+        let nTrailing = NSLayoutConstraint(item: nextButton, attribute: .trailing, relatedBy: .equal, toItem: view, attribute: .trailing, multiplier: 1, constant: -5)
+        let nTop = NSLayoutConstraint(item: nextButton, attribute: .top, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1, constant: 0)
+        let nWidth = NSLayoutConstraint(item: nextButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 35)
+        let nHeight = NSLayoutConstraint(item: nextButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 35)
+        self.view.addConstraints([nTrailing, nTop, nWidth, nHeight])
+
+        
         for (index, week) in weeks.enumerated() {
-            let label = UILabel(frame: CGRect(x: (view.frame.width/7) * CGFloat(index), y: 46, width: view.frame.width/7, height: 14))
+            let label = UILabel()
             label.text = week
             label.textAlignment = .center
             label.font = UIFont.systemFont(ofSize: 14)
             label.textColor = UIColor.darkGray
             label.translatesAutoresizingMaskIntoConstraints = false
             self.view.addSubview(label)
+            
+            if (index == 0) {
+                let weekLeading = NSLayoutConstraint(item: label, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .leading, multiplier: 1, constant: 0)
+                let weekTop = NSLayoutConstraint(item: label, attribute: .top, relatedBy: .equal, toItem: prevButton, attribute: .bottom, multiplier: 1, constant: 10)
+                let weekWidth = NSLayoutConstraint(item: label, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: view.frame.width/7)
+                let weekHeight = NSLayoutConstraint(item: label, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 14)
+                self.view.addConstraints([weekLeading, weekTop, weekWidth, weekHeight])
+            }
+            else {
+                let weekLeading = NSLayoutConstraint(item: label, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .leading, multiplier: 1, constant: (view.frame.width/7) * CGFloat(index))
+                let weekTop = NSLayoutConstraint(item: label, attribute: .top, relatedBy: .equal, toItem: prevButton, attribute: .bottom, multiplier: 1, constant: 10)
+                let weekWidth = NSLayoutConstraint(item: label, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: view.frame.width/7)
+                let weekHeight = NSLayoutConstraint(item: label, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 14)
+                self.view.addConstraints([weekLeading, weekTop, weekWidth, weekHeight])
+            }
         }
         
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
