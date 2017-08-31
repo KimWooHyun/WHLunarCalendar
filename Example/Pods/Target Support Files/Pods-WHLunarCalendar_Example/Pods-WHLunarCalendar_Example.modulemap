@@ -1,0 +1,6 @@
+framework module Pods_WHLunarCalendar_Example {
+  umbrella header "Pods-WHLunarCalendar_Example-umbrella.h"
+
+  export *
+  module * { export * }
+}

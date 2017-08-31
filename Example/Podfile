@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'WHLunarCalendar_Example' do
+  pod 'WHLunarCalendar', :path => '../'
+
+  target 'WHLunarCalendar_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end

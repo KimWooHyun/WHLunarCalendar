@@ -1,0 +1,16 @@
+PODS:
+  - WHLunarCalendar (0.1.0)
+
+DEPENDENCIES:
+  - WHLunarCalendar (from `../`)
+
+EXTERNAL SOURCES:
+  WHLunarCalendar:
+    :path: ../
+
+SPEC CHECKSUMS:
+  WHLunarCalendar: c92c976792bbf8fcb33270d9853826b8e586ce74
+
+PODFILE CHECKSUM: da3ab9db0e82b88c11d7e817f50ef0a253ef31a2
+
+COCOAPODS: 1.3.1

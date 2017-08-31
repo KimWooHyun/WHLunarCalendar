@@ -1,0 +1,22 @@
+{
+  "name": "WHLunarCalendar",
+  "version": "0.1.0",
+  "summary": "A short description of WHLunarCalendar.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/kimwoohyun/WHLunarCalendar",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "kimwoohyun": "dngus242@naver.com"
+  },
+  "source": {
+    "git": "https://github.com/kimwoohyun/WHLunarCalendar.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "WHLunarCalendar/Classes/**/*"
+}
