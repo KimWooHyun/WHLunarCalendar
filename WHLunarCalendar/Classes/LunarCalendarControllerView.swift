@@ -188,7 +188,7 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
                 cell.LunarLabel.text = "음 " + String(describing: lunar["month"] as! Int) + "." + String(describing: lunar["day"] as! Int)
             }
             cell.lunarDay = String(describing: lunar["year"] as! Int) + "-" + String(describing: lunar["month"] as! Int) + "-" + String(describing: lunar["day"] as! Int)
-            cell.isLeap = lunar["isYunMonth"] as! Bool
+            cell.isLeap = lunar["isYunMonth"] as! Bool?
         }
         else {
             cell.LunarLabel.text = ""
@@ -224,7 +224,7 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
     
     func handleDatePicker(sender: UIDatePicker) {
         let changeDate = sender.date.startOfMonth()
-        var dateFormatter = DateFormatter()
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "YYYY.MM"
         self.monthTF.text = dateFormatter.string(from: sender.date)
         self.thisMonth = Calendar.current.component(.month, from: changeDate)
@@ -246,7 +246,7 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
         else if (sender.tag == 2){
             changeDate = self.firstDay.add(month: 2).startOfMonth()
         }
-        var dateFormatter = DateFormatter()
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "YYYY.MM"
         self.monthTF.text = dateFormatter.string(from: changeDate!)
         self.thisMonth = Calendar.current.component(.month, from: changeDate!)

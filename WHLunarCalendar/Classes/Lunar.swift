@@ -92,15 +92,15 @@ class Lunar {
     
     func totalDays(solar_date: Date) -> Int {
         let thisYear = Calendar.current.component(.year, from: solar_date as Date)
-        var thisMonth = Calendar.current.component(.month, from: solar_date as Date) - 1
-        var thisDay = Calendar.current.component(.day, from: solar_date as Date)
+        let thisMonth = Calendar.current.component(.month, from: solar_date as Date) - 1
+        let thisDay = Calendar.current.component(.day, from: solar_date as Date)
         
         if ((thisYear % 4 == 0) && (thisYear % 100 != 0) || (thisYear % 400 == 0)) { monthTable[1] = 29 }
         else { monthTable[1] = 28 }
         
         var sum = 0
         for i in 0..<thisMonth {
-            sum = sum + monthTable[i] as! Int
+            sum = sum + monthTable[i]
         }
         let nYears366 = Int((thisYear - 1) / 4) - Int((thisYear - 1) / 100) + Int((thisYear - 1) / 400)
         let tDays = (thisYear - 1) * 365 + sum + nYears366 + thisDay - 1
