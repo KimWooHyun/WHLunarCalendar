@@ -32,6 +32,9 @@
                             <constraint firstAttribute="trailing" secondItem="6Ze-Pe-xn7" secondAttribute="trailing" id="na8-Aq-urG"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="lunarCalendar" destination="6Ze-Pe-xn7" id="Rmd-xj-IUt"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

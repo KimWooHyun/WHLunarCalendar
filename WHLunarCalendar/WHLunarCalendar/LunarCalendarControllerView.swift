@@ -8,8 +8,15 @@
 
 import UIKit
 
+public protocol LunarCalendarDelegate {
+    func lunarCalendarCellClick(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
+}
+
 @IBDesignable
-open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    
+    var delegate: LunarCalendarDelegate?
+    
     var collectionview: UICollectionView!
     var cellId = "Cell"
     var firstDay = Date().startOfMonth()
@@ -161,9 +168,14 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
             cell.alpha = 1.0
         }
         cell.DayLabel.text = String(day)
+        cell.solorDay = String(year) + "-" + String(month) + "-" + String(day)
         changeLunar(isSelected: isLunarButton.isSelected, cell: cell, date: date)
         
         return cell
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.delegate?.lunarCalendarCellClick(collectionView, didSelectItemAt: indexPath)
     }
     
     func changeLunar (isSelected: Bool, cell: WHLunarCalendarCell, date: Date) {
@@ -175,9 +187,13 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
             else {
                 cell.LunarLabel.text = "음 " + String(describing: lunar["month"] as! Int) + "." + String(describing: lunar["day"] as! Int)
             }
+            cell.lunarDay = String(describing: lunar["year"] as! Int) + "-" + String(describing: lunar["month"] as! Int) + "-" + String(describing: lunar["day"] as! Int)
+            cell.isLeap = lunar["isYunMonth"] as! Bool
         }
         else {
             cell.LunarLabel.text = ""
+            cell.isLeap = nil
+            cell.lunarDay = nil
         }
     }
     
@@ -240,10 +256,12 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
     }
 }
 
-class WHLunarCalendarCell: UICollectionViewCell {
+open class WHLunarCalendarCell: UICollectionViewCell {
     var DayLabel: UILabel!
     var LunarLabel: UILabel!
-    var lunarDay: String? = nil
+    open var lunarDay: String? = nil
+    open var solorDay: String? = nil
+    open var isLeap: Bool? = nil
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -270,7 +288,7 @@ class WHLunarCalendarCell: UICollectionViewCell {
         addSubview(LunarLabel)
     }
     
-    override var isSelected: Bool {
+    override open var isSelected: Bool {
         didSet {
             backgroundColor = isSelected ? UIColor.navy : UIColor.brightGray
             self.DayLabel.textColor = isSelected ? UIColor.white : UIColor.darkGray
@@ -278,7 +296,7 @@ class WHLunarCalendarCell: UICollectionViewCell {
         }
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
