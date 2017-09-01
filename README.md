@@ -21,7 +21,8 @@ pod 'WHLunarCalendar', :git => 'https://github.com/KimWooHyun/WHLunarCalendar.gi
 
 Use storyboard
 
-![image](./Assets/1.png) 
+![image](./Assets/1.png)
+
 ![image](./Assets/2.png)
 
 Import WHLunarCalendar & add delegate
