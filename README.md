@@ -17,15 +17,15 @@ it, simply add the following line to your Podfile:
 pod 'WHLunarCalendar', :git => 'https://github.com/KimWooHyun/WHLunarCalendar.git', :branch => 'master'
 ```
 
-## Usage
+## Usage - Use storyboard
 
-Use storyboard
+1. Add UIView
 
 ![image](./Assets/1.png)
+2. Add custom calss
 
 ![image](./Assets/2.png)
-
-Import WHLunarCalendar & add delegate
+3. Import WHLunarCalendar & add delegate
 
 ```swift
 ViewController.swift
@@ -42,9 +42,7 @@ class ViewController: UIViewController {
     }
 }
 ```
-
-
-Add event
+4. Add event
 
 ```swift
 Extension
