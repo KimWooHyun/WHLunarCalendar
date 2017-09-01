@@ -22,9 +22,11 @@ pod 'WHLunarCalendar', :git => 'https://github.com/KimWooHyun/WHLunarCalendar.gi
 1. Add UIView
 
 ![image](./Assets/1.png)
+
 2. Add custom calss
 
 ![image](./Assets/2.png)
+
 3. Import WHLunarCalendar & add delegate
 
 ```swift
