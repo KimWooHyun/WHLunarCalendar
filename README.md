@@ -21,9 +21,10 @@ pod 'WHLunarCalendar', :git => 'https://github.com/KimWooHyun/WHLunarCalendar.gi
 
 Use storyboard
 
-1. ![image](./Assets/1.png) 
-2. ![image](./Assets/2.png)
-3. Import WHLunarCalendar & add delegate
+![image](./Assets/1.png) 
+![image](./Assets/2.png)
+
+Import WHLunarCalendar & add delegate
 
 ```swift
 ViewController.swift
@@ -41,7 +42,8 @@ class ViewController: UIViewController {
 }
 ```
 
-4. Add event
+
+Add event
 
 ```swift
 Extension
