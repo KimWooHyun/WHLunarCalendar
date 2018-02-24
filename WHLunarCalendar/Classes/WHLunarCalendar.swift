@@ -10,12 +10,14 @@ import UIKit
 
 @IBDesignable
 open class WHLunarCalendar: UIView{
-    open var delegate: LunarCalendarDelegate?
+    open var delegate: LunarCalendarDelegate? {
+        didSet { calendar.delegate = delegate }
+    }
+    
     let calendar = LunarCalendarControllerView()
     
     override open func layoutSubviews() {
         calendar.view.frame = self.bounds
         self.addSubview(calendar.view)
-        calendar.delegate = delegate
     }
 }
