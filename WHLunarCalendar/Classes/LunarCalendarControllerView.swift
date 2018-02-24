@@ -168,7 +168,7 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
             cell.alpha = 1.0
         }
         cell.DayLabel.text = String(day)
-        cell.solorDay = String(year) + "-" + String(month) + "-" + String(day)
+        cell.solarDay = String(year) + "-" + String(month) + "-" + String(day)
         changeLunar(isSelected: isLunarButton.isSelected, cell: cell, date: date)
         
         return cell
@@ -260,7 +260,7 @@ open class WHLunarCalendarCell: UICollectionViewCell {
     var DayLabel: UILabel!
     var LunarLabel: UILabel!
     open var lunarDay: String? = nil
-    open var solorDay: String? = nil
+    open var solarDay: String? = nil
     open var isLeap: Bool? = nil
     
     override init(frame: CGRect) {
