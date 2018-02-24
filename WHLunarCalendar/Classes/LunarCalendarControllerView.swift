@@ -30,13 +30,7 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
     let monthTF = UITextField()
     var datePickerView = UIDatePicker()
     
-    override open func viewWillAppear(_ animated: Bool) {
-        firstDay = firstDay.add(day: -(thisWeekday - 1))
-        
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MM"
-        let month = formatter.string(from: firstDay.add(month: 1) as Date )
-        
+    open override func viewDidLoad() {
         prevButton.layer.backgroundColor = UIColor.brightGray.cgColor
         prevButton.layer.cornerRadius = 18.0
         prevButton.setTitle("<", for: .normal)
@@ -56,7 +50,6 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
         
         
         monthTF.addTarget(self, action: #selector(dateTextInputPressed), for: .touchDown)
-        monthTF.text = String(self.thisYear) + "." + month
         monthTF.textAlignment = .center
         monthTF.font = UIFont.systemFont(ofSize: 36)
         monthTF.textColor = UIColor.darkGray
@@ -145,6 +138,23 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
         self.view.addSubview(collectionview)
     }
     
+    open override func viewWillLayoutSubviews() {
+        guard let layout = collectionview.collectionViewLayout as? UICollectionViewFlowLayout else {
+            return
+        }
+        layout.itemSize = CGSize(width: view.frame.width/7, height: (view.frame.height - 70)/6)
+    }
+    
+    override open func viewWillAppear(_ animated: Bool) {
+        firstDay = firstDay.add(day: -(thisWeekday - 1))
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM"
+        let month = formatter.string(from: firstDay.add(month: 1) as Date )
+        
+        monthTF.text = String(self.thisYear) + "." + month
+    }
+    
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 42
     }
@@ -168,7 +178,7 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
             cell.alpha = 1.0
         }
         cell.DayLabel.text = String(day)
-        cell.solorDay = String(year) + "-" + String(month) + "-" + String(day)
+        cell.solarDay = String(year) + "-" + String(month) + "-" + String(day)
         changeLunar(isSelected: isLunarButton.isSelected, cell: cell, date: date)
         
         return cell
@@ -197,7 +207,7 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
         }
     }
     
-    func isLunarButtonClick(sender: UIButton!) {
+    @objc func isLunarButtonClick(sender: UIButton!) {
         sender.isSelected = !sender.isSelected
         UIView.animate(withDuration: 0.3) {
             () -> Void in
@@ -207,7 +217,7 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
         self.collectionview.reloadData()
     }
     
-    func dateTextInputPressed(sender: UITextField) {
+    @objc func dateTextInputPressed(sender: UITextField) {
         let inputView = UIView(frame: CGRect(x:0, y:0, width: self.view.frame.width, height:240))
         datePickerView.frame = CGRect(x:0, y:40, width: self.view.frame.width, height:200)
         datePickerView.datePickerMode = UIDatePickerMode.date
@@ -233,12 +243,12 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
         self.collectionview.reloadData()
     }
     
-    func doneButtonClick(sender:UIButton) {
+    @objc func doneButtonClick(sender:UIButton) {
         handleDatePicker(sender: datePickerView)
         monthTF.resignFirstResponder()
     }
     
-    func changeDay(sender: UIButton) {
+    @objc func changeDay(sender: UIButton) {
         var changeDate: Date? = nil
         if (sender.tag == 1) {
             changeDate = self.thisWeekday == 1 ? self.firstDay.add(month: -1).startOfMonth() : self.firstDay.startOfMonth()
@@ -260,7 +270,7 @@ open class WHLunarCalendarCell: UICollectionViewCell {
     var DayLabel: UILabel!
     var LunarLabel: UILabel!
     open var lunarDay: String? = nil
-    open var solorDay: String? = nil
+    open var solarDay: String? = nil
     open var isLeap: Bool? = nil
     
     override init(frame: CGRect) {

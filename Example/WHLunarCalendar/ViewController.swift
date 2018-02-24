@@ -25,7 +25,7 @@ class ViewController: UIViewController {
 extension ViewController: LunarCalendarDelegate{
     func lunarCalendarCellClick(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! WHLunarCalendarCell
-        print(cell.solorDay)
+        print(cell.solarDay)
         print(cell.lunarDay)    // Optional
         print(cell.isLeap)      // Optional
     }
