@@ -23,7 +23,7 @@ pod 'WHLunarCalendar', :git => 'https://github.com/KimWooHyun/WHLunarCalendar.gi
 
 ![image](./Assets/1.png)
 
-2. Add custom calss
+2. Add custom class
 
 ![image](./Assets/2.png)
 
