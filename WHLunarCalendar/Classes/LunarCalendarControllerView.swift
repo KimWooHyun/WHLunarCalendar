@@ -30,13 +30,7 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
     let monthTF = UITextField()
     var datePickerView = UIDatePicker()
     
-    override open func viewWillAppear(_ animated: Bool) {
-        firstDay = firstDay.add(day: -(thisWeekday - 1))
-        
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MM"
-        let month = formatter.string(from: firstDay.add(month: 1) as Date )
-        
+    open override func viewDidLoad() {
         prevButton.layer.backgroundColor = UIColor.brightGray.cgColor
         prevButton.layer.cornerRadius = 18.0
         prevButton.setTitle("<", for: .normal)
@@ -56,7 +50,6 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
         
         
         monthTF.addTarget(self, action: #selector(dateTextInputPressed), for: .touchDown)
-        monthTF.text = String(self.thisYear) + "." + month
         monthTF.textAlignment = .center
         monthTF.font = UIFont.systemFont(ofSize: 36)
         monthTF.textColor = UIColor.darkGray
@@ -143,6 +136,23 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
         collectionview.showsVerticalScrollIndicator = false
         collectionview.backgroundColor = UIColor.white
         self.view.addSubview(collectionview)
+    }
+    
+    open override func viewWillLayoutSubviews() {
+        guard let layout = collectionview.collectionViewLayout as? UICollectionViewFlowLayout else {
+            return
+        }
+        layout.itemSize = CGSize(width: view.frame.width/7, height: (view.frame.height - 70)/6)
+    }
+    
+    override open func viewWillAppear(_ animated: Bool) {
+        firstDay = firstDay.add(day: -(thisWeekday - 1))
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM"
+        let month = formatter.string(from: firstDay.add(month: 1) as Date )
+        
+        monthTF.text = String(self.thisYear) + "." + month
     }
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
