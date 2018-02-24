@@ -197,7 +197,7 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
         }
     }
     
-    func isLunarButtonClick(sender: UIButton!) {
+    @objc func isLunarButtonClick(sender: UIButton!) {
         sender.isSelected = !sender.isSelected
         UIView.animate(withDuration: 0.3) {
             () -> Void in
@@ -207,7 +207,7 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
         self.collectionview.reloadData()
     }
     
-    func dateTextInputPressed(sender: UITextField) {
+    @objc func dateTextInputPressed(sender: UITextField) {
         let inputView = UIView(frame: CGRect(x:0, y:0, width: self.view.frame.width, height:240))
         datePickerView.frame = CGRect(x:0, y:40, width: self.view.frame.width, height:200)
         datePickerView.datePickerMode = UIDatePickerMode.date
@@ -233,12 +233,12 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
         self.collectionview.reloadData()
     }
     
-    func doneButtonClick(sender:UIButton) {
+    @objc func doneButtonClick(sender:UIButton) {
         handleDatePicker(sender: datePickerView)
         monthTF.resignFirstResponder()
     }
     
-    func changeDay(sender: UIButton) {
+    @objc func changeDay(sender: UIButton) {
         var changeDate: Date? = nil
         if (sender.tag == 1) {
             changeDate = self.thisWeekday == 1 ? self.firstDay.add(month: -1).startOfMonth() : self.firstDay.startOfMonth()
