@@ -1,8 +1,8 @@
 {
   "name": "WHLunarCalendar",
-  "version": "0.1.0",
-  "summary": "A short description of WHLunarCalendar.",
-  "description": "TODO: Add long description of the pod here.",
+  "version": "0.1.1",
+  "summary": "A Korea Lunar Calendar",
+  "description": "A swift libray Korea lunar calendar",
   "homepage": "https://github.com/kimwoohyun/WHLunarCalendar",
   "license": {
     "type": "MIT",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/kimwoohyun/WHLunarCalendar.git",
-    "tag": "0.1.0"
+    "tag": "0.1.1"
   },
   "platforms": {
     "ios": "8.0"
