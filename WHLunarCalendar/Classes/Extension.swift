@@ -28,10 +28,10 @@ extension UIColor {
 
 extension Date {
     func add(day: Int) -> Date {
-        return Calendar(identifier: .gregorian).date(byAdding: .day, value: day, to: self)!
+        return Calendar.current.date(byAdding: .day, value: day, to: self)!
     }
     func add(month: Int) -> Date {
-        return Calendar(identifier: .gregorian).date(byAdding: .month, value: month, to: self)!
+        return Calendar.current.date(byAdding: .month, value: month, to: self)!
     }
     func startOfMonth() -> Date {
         return Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Calendar.current.startOfDay(for: self)))!

@@ -5,7 +5,6 @@
 //  Created by 김우현 on 2017. 8. 31..
 //
 //
-
 import UIKit
 
 public protocol LunarCalendarDelegate {
@@ -35,7 +34,7 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
         
         let formatter = DateFormatter()
         formatter.dateFormat = "MM"
-        let month = formatter.string(from: firstDay.add(month: 1) as Date )
+        let month = formatter.string(from: firstDay as Date )
         
         prevButton.layer.backgroundColor = UIColor.brightGray.cgColor
         prevButton.layer.cornerRadius = 18.0
@@ -69,7 +68,6 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
         let mHeight = NSLayoutConstraint(item: monthTF, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 36)
         self.view.addConstraints([mLeading, mTop, mWidth, mHeight])
         
-        
         isLunarButton.layer.borderWidth = 1.0
         isLunarButton.layer.borderColor = UIColor.darkGray.cgColor
         isLunarButton.layer.cornerRadius = 8.0
@@ -81,7 +79,7 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
         isLunarButton.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(isLunarButton)
         
-        let lLeading = NSLayoutConstraint(item: isLunarButton, attribute: .right, relatedBy: .equal, toItem: self.monthTF, attribute: .right, multiplier: 1, constant: 3)
+        let lLeading = NSLayoutConstraint(item: isLunarButton, attribute: .right, relatedBy: .equal, toItem: self.monthTF, attribute: .right, multiplier: 1, constant: 8)
         let lTop = NSLayoutConstraint(item: isLunarButton, attribute: .top, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1, constant: 7)
         let lWidth = NSLayoutConstraint(item: isLunarButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 35)
         let lHeight = NSLayoutConstraint(item: isLunarButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 25)
@@ -103,7 +101,6 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
         let nWidth = NSLayoutConstraint(item: nextButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 35)
         let nHeight = NSLayoutConstraint(item: nextButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 35)
         self.view.addConstraints([nTrailing, nTop, nWidth, nHeight])
-        
         
         for (index, week) in weeks.enumerated() {
             let label = UILabel()
@@ -148,7 +145,6 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 42
     }
-    
     
     public func collectionView(_ cellForItemAtcollectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionview.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath as IndexPath) as! WHLunarCalendarCell
@@ -244,7 +240,7 @@ open class LunarCalendarControllerView: UIViewController, UICollectionViewDataSo
             changeDate = self.thisWeekday == 1 ? self.firstDay.add(month: -1).startOfMonth() : self.firstDay.startOfMonth()
         }
         else if (sender.tag == 2){
-            changeDate = self.firstDay.add(month: 2).startOfMonth()
+            changeDate = self.thisWeekday == 1 ? self.firstDay.add(month: 1).startOfMonth() : self.firstDay.add(month: 2).startOfMonth()
         }
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "YYYY.MM"
